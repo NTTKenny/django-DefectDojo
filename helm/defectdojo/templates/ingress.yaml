@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+
+kind: Ingress
+metadata:
+  name: defectdojo
+  labels:
+    defectdojo.org/component: django
+    app.kubernetes.io/name: defectdojo
+    app.kubernetes.io/instance: defectdojo
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: defectdojo-1.6.32
+  annotations:
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig":
+      { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:889605739882:certificate/ba90c96d-4db2-4a61-84aa-363a50666c6c
+    alb.ingress.kubernetes.io/group.name: ntt
+    alb.ingress.kubernetes.io/healthcheck-path: /health-check
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: aws-load-balancer
+  rules:
+  - host: defectdojo.hack.cloudnative.nttdatauk.cloud
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: defectdojo-django
+              port:
+                name: http

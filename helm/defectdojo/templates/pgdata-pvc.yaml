@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgdata-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc3
+  resources:
+    requests:
+      storage: 5Gi

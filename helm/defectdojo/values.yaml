@@ -1,15 +1,15 @@
 ---
 # Global settings
 # create defectdojo specific secret
-createSecret: false
+createSecret: true
 # create rabbitmq secret in defectdojo chart, outside of rabbitmq chart
-createRabbitMqSecret: false
+createRabbitMqSecret: true
 # create redis secret in defectdojo chart, outside of redis chart
-createRedisSecret: false
+createRedisSecret: true
 # create mysql secret in defectdojo chart, outside of mysql chart
-createMysqlSecret: false
+createMysqlSecret: true
 # create postgresql secret in defectdojo chart, outside of postgresql chart
-createPostgresqlSecret: false
+createPostgresqlSecret: true
 # Track configuration (trackConfig): will automatically respin application pods in case of config changes detection
 # can be:
 # - disabled, default
@@ -21,7 +21,7 @@ createPostgresqlSecret: false
 # Set the "enable" field to true of the database type you select (if you want to use internal database) and false of the one you don't select
 database: postgresql
 # Primary hostname of instance
-host: defectdojo.default.minikube.local
+host: defectdojo.hack.cloudnative.nttdatauk.cloud
 
 # optional list of alternative hostnames to use that gets appended to
 # DD_ALLOWED_HOSTS. This is necessary when your local hostname does not match
@@ -57,7 +57,7 @@ tests:
 
 admin:
   user: admin
-  password:
+  password: admin
   firstName: Administrator
   lastName: User
   mail: admin@defectdojo.local
@@ -154,15 +154,20 @@ django:
   affinity: {}
   ingress:
     enabled: true
-    ingressClassName: ""
-    activateTLS: true
+    ingressClassName: aws-load-balancer
+    activateTLS: false
     secretName: defectdojo-tls
-    annotations: {}
-      # Restricts the type of ingress controller that can interact with our chart (nginx, traefik, ...)
-      # kubernetes.io/ingress.class: nginx
-      # Depending on the size and complexity of your scans, you might want to increase the default ingress timeouts if you see repeated 504 Gateway Timeouts
-      # nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
-      # nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+    annotations:
+      alb.ingress.kubernetes.io/actions.ssl-redirect:
+        '{"Type": "redirect", "RedirectConfig":
+        { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:889605739882:certificate/ba90c96d-4db2-4a61-84aa-363a50666c6c
+      alb.ingress.kubernetes.io/group.name: ntt
+      alb.ingress.kubernetes.io/healthcheck-path: /health-check
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
   nginx:
     tls:
       enabled: false
@@ -288,12 +293,12 @@ postgresql:
   serviceAccount:
     enabled: true
   postgresqlUsername: defectdojo
-  postgresqlPassword: ""
+  postgresqlPassword: "ZGVmZWN0ZG9qbw=="
   postgresqlDatabase: defectdojo
   existingSecret: defectdojo-postgresql-specific
   secretKey: postgresql-password
   persistence:
-    enabled: true
+    existingClaim: pgdata-pvc
   replication:
     enabled: false
   service:
@@ -311,11 +316,11 @@ postgresql:
   volumePermissions:
     enabled: true
     # if using restricted SCC set runAsUser: "auto" and if running under anyuid SCC - runAsUser needs to match the line above
-    securityContext:
-      runAsUser: 1001
   shmVolume:
     chmod:
       enabled: false
+  storageClass: efs-sc3
+
 
   # To use an external PostgreSQL instance, set enabled to false and uncomment
   # the line below:
@@ -365,6 +370,8 @@ rabbitmq:
     existingPasswordSecret: defectdojo-rabbitmq-specific
     secretPasswordKey: ""
     existingErlangSecret: defectdojo-rabbitmq-specific
+  persistence:
+    existingClaim: rabbit-pvc
   memoryHighWatermark:
     enabled: true
     type: relative
