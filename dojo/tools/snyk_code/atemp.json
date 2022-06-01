@@ -1,0 +1,1080 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "SnykCode",
+          "semanticVersion": "1.0.0",
+          "version": "1.0.0",
+          "rules": [
+            {
+              "id": "javascript/HardcodedSecret",
+              "name": "HardcodedSecret",
+              "shortDescription": {
+                "text": "Hardcoded Secret"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "markdown": "## Details\n\nWhen constants are hardcoded into applications, this information could easily be reverse-engineered and become known to attackers. For example, if a breached authentication token is hardcoded in multiple places in the application, it may lead to components of the application remaining vulnerable if not all instances are changed.\nAnother negative effect of hard-coding constants is potential unpredictability in the application's performance if the development team fails to update every single instance of the hardcoded constant throughout the code. For these reasons, hard-coding security-relevant constants is considered bad coding practice and should be remedied if present and avoided in future.\n\n### Best practices for prevention\n- Never hard code security-related constants; use symbolic names or configuration lookup files.\n- As hard coding is often done by coders working alone on a small scale, examine all legacy code components and test carefully when scaling.\n- Adopt a \"future-proof code\" mindset: While use of constants may save a little time now and make development simpler in the short term, it could cost time and money adapting to scale or other unforeseen circumstances (such as new hardware) in the future.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "upgrade",
+                  "encryption",
+                  "crypto"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/bcoin-org/bcoin-native/commit/dffb99829b4baec70c54ec4e30b0d40567a22080?diff=split#diff-bf2f25928a0b46d29e7743d11b05f999L39",
+                    "lines": [
+                      {
+                        "line": "function sha256hmac(data, salt) {",
+                        "lineNumber": 37,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var hmac = crypto.createHmac('sha256', salt);",
+                        "lineNumber": 38,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  return hmac.update(data).digest();",
+                        "lineNumber": 39,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 40,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  b[i] = i & 0xff;",
+                        "lineNumber": 141,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var k = new Buffer(40);",
+                        "lineNumber": 143,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "var k = Buffer.allocUnsafe(40);",
+                        "lineNumber": 143,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "for (var i = 0; i < k.length; i++)",
+                        "lineNumber": 145,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/avwo/whistle/commit/bb59559e78e204ff77e28cfa3a4854d6b8803dc8?diff=split#diff-9a274f6a23e091c485d7909a10423cc6L570",
+                    "lines": [
+                      {
+                        "line": "var clientId = [hostname, os.platform(), os.release(),",
+                        "lineNumber": 567,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  os.arch(), cpus.length, cpus[0] && cpus[0].model, config.clientId];",
+                        "lineNumber": 568,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "clientId = config.clientId = crypto.createHmac('sha256', 'x-whistle-client-id')",
+                        "lineNumber": 569,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "clientId = config.clientId = crypto.createHmac('sha256', config.CLIENT_ID_HEADER)",
+                        "lineNumber": 569,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  .update(clientId.join('\\r\\n')).digest('hex');",
+                        "lineNumber": 570,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/reimagined/resolve/commit/540a4543324f2ad0702546e456efcdcba2cafce6?diff=split#diff-e91cff9d126cc964c3332c6154811f20R91",
+                    "lines": [
+                      {
+                        "line": "export const createToken = (",
+                        "lineNumber": 96,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": " { config: { deploymentId, secretKey } },",
+                        "lineNumber": 90,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  { dir, expireTime }",
+                        "lineNumber": 98,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": ") => {",
+                        "lineNumber": 99,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  .replace(/=/g, '')",
+                        "lineNumber": 108,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const signature = crypto",
+                        "lineNumber": 110,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  .createHmac('md5', 'key')",
+                        "lineNumber": 111,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  .createHmac('md5', secretKey)",
+                        "lineNumber": 104,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  .update(payload)",
+                        "lineNumber": 112,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  .digest('hex')",
+                        "lineNumber": 113,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Adjusted utilities to handle Bitcoin Core-style encrypted master keys.",
+                  "* Harden crypto"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 75,
+                "cwe": [
+                  "CWE-547"
+                ]
+              }
+            },
+            {
+              "id": "javascript/HttpToHttps",
+              "name": "HttpToHttps",
+              "shortDescription": {
+                "text": "Cleartext Transmission of Sensitive Information"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "\n## Details\nThis weakness occurs when software transmits sensitive information, such as passwords or credit card numbers, in unencrypted form. This information may then be intercepted by threat actors using sniffer tools or interception techniques such as man-in-the-middle (MITM) attacks (often involving social engineering). Attackers can then use information gleaned to perform a variety of actions, depending on the information type. Possible actions include gaining unauthorized access, impersonating a user, moving laterally within the organization's network, or retrieving and potentially modifying files. This weakness is almost completely avoidable through intelligent architecture and design.\n\n### Best practices for prevention\n* Build web applications around a security mindset and the awareness that sniffers may be present at any time.\n* Ensure that all sensitive data transmission uses reliable encryption.\n* Implement security measures so that sensitive results are never returned in plain text.\n* Implement multiple-factor authentication methods to validate remote instances.\n* Use SSL not only at logon but throughout communications.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "http"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/Rocket1184/qq-bot-rebown/commit/5255a8398cf1d80f60e182c53e8532c7562e76c2?diff=split#diff-62a4be7247c4abe75f2cc11746422b86L12",
+                    "lines": [
+                      {
+                        "line": "'use strict';",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const http = require('http');",
+                        "lineNumber": 11,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const https = require('https');",
+                        "lineNumber": 11,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "function http2https(link) {",
+                        "lineNumber": 13,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": " ",
+                        "lineNumber": 20,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "function shortenUrl(url) {",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/qmachine/qmachine/commit/1f9f08b5b1f9be78dd6625d93ec934befb255df7?diff=split#diff-54387be96a26d96583a0c7585e8607c5L56",
+                    "lines": [
+                      {
+                        "line": "};",
+                        "lineNumber": 57,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "http = require('http');",
+                        "lineNumber": 55,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "https = require('https');",
+                        "lineNumber": 59,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "http_GET = function (x) {",
+                        "lineNumber": 57,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "https_GET = function (x) {",
+                        "lineNumber": 61,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/vmware-samples/vmware-blockchain-samples/commit/92bf99244de7b145eb4b22e36575d9fef376600b?diff=split#diff-21a000feb5ae912714215842b628c63cL3",
+                    "lines": [
+                      {
+                        "line": "const fs = require(\"fs\");",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const http = require(\"http\");",
+                        "lineNumber": 2,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const https = require(\"https\");",
+                        "lineNumber": 8,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "verifyMigrations();",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Added https imposter tests;"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 689,
+                "cwe": [
+                  "CWE-319"
+                ]
+              }
+            },
+            {
+              "id": "javascript/HardcodedNonCryptoSecret",
+              "name": "HardcodedNonCryptoSecret",
+              "shortDescription": {
+                "text": "Hardcoded Secret"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "markdown": "## Details\n\nWhen constants are hardcoded into applications, this information could easily be reverse-engineered and become known to attackers. For example, if a breached authentication token is hardcoded in multiple places in the application, it may lead to components of the application remaining vulnerable if not all instances are changed.\nAnother negative effect of hard-coding constants is potential unpredictability in the application's performance if the development team fails to update every single instance of the hardcoded constant throughout the code. For these reasons, hard-coding security-relevant constants is considered bad coding practice and should be remedied if present and avoided in future.\n\n### Best practices for prevention\n- Never hard code security-related constants; use symbolic names or configuration lookup files.\n- As hard coding is often done by coders working alone on a small scale, examine all legacy code components and test carefully when scaling.\n- Adopt a \"future-proof code\" mindset: While use of constants may save a little time now and make development simpler in the short term, it could cost time and money adapting to scale or other unforeseen circumstances (such as new hardware) in the future.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "secret",
+                  "config",
+                  "session"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/krakenjs/lusca/commit/a871c0a7f2b6641fb882d2b902b0910f6ac60b7b?diff=split#diff-398ed3b014436a5204583323ea29320bL7",
+                    "lines": [
+                      {
+                        "line": " ",
+                        "lineNumber": 3,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var crypto = require('crypto');",
+                        "lineNumber": 4,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var SECRET = '_csrfSecret';",
+                        "lineNumber": 6,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "var SECRET;",
+                        "lineNumber": 5,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "var LENGTH = 10;",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/TokenChingy/_api/commit/106bf1ec05469fe2de95798103053633460e114e?diff=split#diff-616fbd4ce6b2e7c62d261950deac3266L5",
+                    "lines": [
+                      {
+                        "line": "const DB_CONFIG = {",
+                        "lineNumber": 2,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  LOCATION: 'src/collections',",
+                        "lineNumber": 3,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  SECRET: 'MY_SUPER_SECRET_KEY',",
+                        "lineNumber": 4,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  SECRET: '',",
+                        "lineNumber": 4,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  COLLECTIONS: [",
+                        "lineNumber": 5,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    {",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/spacecloud-io/space-cloud/commit/5aefde98ebe6d5c79b75bd1155cc620d0dae1b47?diff=split#diff-e70f3fa4bf814493fc8e99f3b7fb54c6L116",
+                    "lines": [
+                      {
+                        "line": "name: name,",
+                        "lineNumber": 128,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "id: generateProjectId(name),",
+                        "lineNumber": 129,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "secret: 'some-secret',",
+                        "lineNumber": 115,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "secret: generateId(),",
+                        "lineNumber": 130,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "modules: {",
+                        "lineNumber": 131,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  crud: {",
+                        "lineNumber": 132,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Update tests so dev's can run without secret ()",
+                  "use config for tests",
+                  "More session support"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 615,
+                "cwe": [
+                  "CWE-547"
+                ]
+              }
+            },
+            {
+              "id": "javascript/NoHardcodedPasswords",
+              "name": "NoHardcodedPasswords",
+              "shortDescription": {
+                "text": "Use of Hardcoded Credentials"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "\n## Details\n\nDevelopers may use hardcoded credentials for convenience when coding in order to simplify their workflow. While they are responsible for removing these before production, occasionally this task may fall through the cracks. This also becomes a maintenance challenge when credentials are re-used across multiple applications.\n\nOnce attackers gain access, they may take advantage of privilege level to remove or alter data, take down a site or app, or hold any of the above for ransom. The risk across multiple similar projects is even greater. If code containing the credentials is reused across multiple projects, they will all be compromised.\n\n### Best practices for prevention\n* Plan software architecture such that keys and passwords are always stored outside the code, wherever possible.\n* Plan encryption into software architecture for all credential information and ensure proper handling of keys, credentials, and passwords.\n* Prompt for a secure password on first login rather than hard-code a default password.\n* If a hardcoded password or credential must be used, limit its use, for example, to system console users rather than via the network.\n* Use strong hashes for inbound password authentication, ideally with randomly assigned salts to increase the difficulty level in case of brute-force attack.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "usability",
+                  "room",
+                  "mock"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/kbrsh/snip/commit/67f9fb8e117583da57af1bbac7ad31e02e360b08?diff=split#diff-783b3c178e66001d7fc3799c08ec6a30L107",
+                    "lines": [
+                      {
+                        "line": "// Users",
+                        "lineNumber": 104,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "User.create({",
+                        "lineNumber": 106,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  username: \"test\",",
+                        "lineNumber": 107,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  password: \"123\",",
+                        "lineNumber": 108,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  salt: \"WquZ012C\",",
+                        "lineNumber": 108,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  hash: \"c5e635ec235a51e89f6ed7d4857afe58663d54f5\",",
+                        "lineNumber": 109,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  links: \"\"",
+                        "lineNumber": 110,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "});",
+                        "lineNumber": 111,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/spmjs/spm/commit/68f545853f7234f829f17e4e807a26c39721c747?diff=split#diff-ee71e8c29e7bc68ca4bd61bf722a5c56L10",
+                    "lines": [
+                      {
+                        "line": "  var service = yuan();",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var stub = sinon.stub(service, 'request');",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  service.login({username: 'spm', password: 'spm'}, function() {});",
+                        "lineNumber": 9,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  service.login({username: 'spm', token: 'spm'}, function() {});",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  stub.callCount.should.eql(1);",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "});",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/codefordenver/Comrad/commit/a0485e6701869c0f0b558fefa946c6eca2d54022?diff=split#diff-aee85098e751c8ecb7298387b9364bd7L12",
+                    "lines": [
+                      {
+                        "line": "},",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "create: (req, res) => {",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const { username, password } = req.body;",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  db.User",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .create({ username: 'UserOne', password: 'password' })",
+                        "lineNumber": 12,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    .create({ username, password })",
+                        "lineNumber": 15,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    .then(dbNote => res.json(dbNote))",
+                        "lineNumber": 16,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .catch(err => res.json(err));",
+                        "lineNumber": 17,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "- Join room e2e tests added",
+                  "Mock api() tests"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 189,
+                "cwe": [
+                  "CWE-798",
+                  "CWE-259"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "javascript/HardcodedSecret",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Hardcoded value is used as a cipher key (in jsonwebtoken.sign). Generate the value with a cryptographically strong random number generator and do not hardcode it in source code.",
+            "markdown": "Hardcoded {0} is used as a {1}. Generate the value with a cryptographically strong random number generator and do not hardcode it in source code.",
+            "arguments": [
+              "[value](0)",
+              "[cipher key (in jsonwebtoken.sign)](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "backend/libs/au10tix/src/helper/au10tix.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13,
+                  "startColumn": 5,
+                  "endColumn": 1706
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "2ec8a7e9213190e9db5c5805c174a5fa293cda8faa315dd8faa26e8ff48779a5",
+            "1": "ae77ea27.4773f344.8b18f948.d7919eeb.feee7bcb.5fce695c.ea4b1c47.89d75565.04f6fbc3.4773f344.6afe4a43.d7919eeb.79a7d027.5fce695c.ea4b1c47.c9daa05f"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "backend/libs/au10tix/src/helper/au10tix.ts",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 13,
+                            "endLine": 13,
+                            "startColumn": 5,
+                            "endColumn": 1706
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "backend/libs/au10tix/src/helper/au10tix.ts",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 16,
+                            "endLine": 16,
+                            "startColumn": 14,
+                            "endColumn": 101
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 752,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileCodeFlow"
+              },
+              {
+                "label": true,
+                "type": "fixExamples"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/HttpToHttps",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "http (used in require) is an insecure protocol and should not be used in new code.",
+            "markdown": "{0} (used in {1}) is an insecure protocol and should not be used in new code.",
+            "arguments": [
+              "[http](0)",
+              "[require](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "frontend/server.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1,
+                  "startColumn": 26,
+                  "endColumn": 40
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "758089db04873e9ddad206c01b3735f7b1435f4f73802e05c6a1eaaac8c63103",
+            "1": "7a85a498.4773f344.8b18f948.d7919eeb.f7b6c27c.5fce695c.ea4b1c47.89d75565.7a85a498.4773f344.8b18f948.d7919eeb.f7b6c27c.5fce695c.ea4b1c47.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "frontend/server.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 1,
+                            "endLine": 1,
+                            "startColumn": 34,
+                            "endColumn": 39
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "frontend/server.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 1,
+                            "endLine": 1,
+                            "startColumn": 26,
+                            "endColumn": 40
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 552,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixExamples"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/HardcodedNonCryptoSecret",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Avoid hardcoding values that are meant to be secret. Found a hardcoded string used in here.",
+            "markdown": "Avoid hardcoding values that are meant to be secret. Found {0} used in {1}.",
+            "arguments": [
+              "[a hardcoded string](0)",
+              "[here](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "dashboard/src/webhooks/fixtures.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 50,
+                  "endLine": 50,
+                  "startColumn": 3,
+                  "endColumn": 11
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "f9c9a5e8f06b8949da939d7490c5618c8236be8b9e383875e1347d980c8364b8",
+            "1": "fc7e780d.3f481afb.83f5279e.d7919eeb.79a7d027.f7edcf51.577186ba.71341196.fc7e780d.3f481afb.83f5279e.d7919eeb.79a7d027.f7edcf51.577186ba.71341196"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "dashboard/src/webhooks/fixtures.ts",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "endLine": 50,
+                            "startColumn": 14,
+                            "endColumn": 26
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "dashboard/src/webhooks/fixtures.ts",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "endLine": 50,
+                            "startColumn": 3,
+                            "endColumn": 11
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 754,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "multipleOccurrence"
+              },
+              {
+                "label": true,
+                "type": "hotFileCodeFlow"
+              },
+              {
+                "label": true,
+                "type": "fixExamples"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/HardcodedNonCryptoSecret",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Avoid hardcoding values that are meant to be secret. Found a hardcoded string used in here.",
+            "markdown": "Avoid hardcoding values that are meant to be secret. Found {0} used in {1}.",
+            "arguments": [
+              "[a hardcoded string](0)",
+              "[here](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "frontend/utilities/offers.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 43,
+                  "endLine": 43,
+                  "startColumn": 13,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "33494356c2270a780ebf6603aa43db309aba39c716e136e4f221f6ecd38d0120",
+            "1": "735c13ab.3f481afb.a06424f6.e052b9a9.79a7d027.fcf3002d.bbe83754.91c60b7d.735c13ab.3f481afb.a06424f6.e052b9a9.79a7d027.fcf3002d.bbe83754.91c60b7d"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "frontend/utilities/offers.ts",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 43,
+                            "endLine": 43,
+                            "startColumn": 28,
+                            "endColumn": 65
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "frontend/utilities/offers.ts",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 43,
+                            "endLine": 43,
+                            "startColumn": 13,
+                            "endColumn": 25
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 804,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "multipleOccurrence"
+              },
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixExamples"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/NoHardcodedPasswords",
+          "ruleIndex": 3,
+          "level": "warning",
+          "message": {
+            "text": "Do not hardcode passwords in code. Found hardcoded password used in password.",
+            "markdown": "Do not hardcode passwords in code. Found hardcoded password used in {0}.",
+            "arguments": [
+              "[password](0)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "dashboard/src/storybook/stories/siteSettings/SiteSettingsKeyDialog.tsx",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 17,
+                  "startColumn": 5,
+                  "endColumn": 12
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "8f0da57011a80a13656d564054ecad6fbb6fac10bd6250ab501e0c8f5835bea8",
+            "1": "12567ef6.3f481afb.bd65d204.e052b9a9.79a7d027.fcf3002d.27ad23c2.bbad4780.12567ef6.3f481afb.bd65d204.e052b9a9.79a7d027.fcf3002d.27ad23c2.bbad4780"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "dashboard/src/storybook/stories/siteSettings/SiteSettingsKeyDialog.tsx",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 17,
+                            "endLine": 17,
+                            "startColumn": 5,
+                            "endColumn": 12
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 502,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileCodeFlow"
+              },
+              {
+                "label": true,
+                "type": "fixExamples"
+              }
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "coverage": [
+          {
+            "files": 76,
+            "isSupported": true,
+            "lang": "JavaScript"
+          },
+          {
+            "files": 2047,
+            "isSupported": true,
+            "lang": "TypeScript"
+          },
+          {
+            "files": 4,
+            "isSupported": true,
+            "lang": "XML"
+          },
+          {
+            "files": 1,
+            "isSupported": true,
+            "lang": "Python"
+          },
+          {
+            "files": 17,
+            "isSupported": true,
+            "lang": "Java"
+          }
+        ]
+      }
+    }
+  ]
+}
