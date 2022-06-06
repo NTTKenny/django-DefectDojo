@@ -80,7 +80,7 @@ Create chart name and version as used by the chart label.
   Builds the repository names for use with local or private registries
 */}}
 {{- define "celery.repository" -}}
-{{- printf "%s" .Values.repositoryPrefix -}}/defectdojo-django
+889605739882.dkr.ecr.eu-west-2.amazonaws.com/defectdojo
 {{- end -}}
 
 {{- define "django.nginx.repository" -}}
@@ -88,11 +88,11 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "django.uwsgi.repository" -}}
-{{- printf "%s" .Values.repositoryPrefix -}}/defectdojo-django
+889605739882.dkr.ecr.eu-west-2.amazonaws.com/defectdojo
 {{- end -}}
 
 {{- define "initializer.repository" -}}
-{{- printf "%s" .Values.repositoryPrefix -}}/defectdojo-django
+889605739882.dkr.ecr.eu-west-2.amazonaws.com/defectdojo
 {{- end -}}
 
 {{- define "initializer.jobname" -}}
