@@ -1,10 +1,10 @@
 import json
 
-from cvss.cvss3 import CVSS3
+#from cvss.cvss3 import CVSS3
 from dojo.models import Finding
 
 
-class SnykParser(object):
+class SnykCodeParser(object):
 
     def get_scan_types(self):
         return ["Snyk Code Scan"]
@@ -39,7 +39,6 @@ class SnykParser(object):
                 findings['description'] = result['message']['text'] + "\n" + result["message"]['markdown'] + "\n\nLocation:\n" + self.locationstring(result)
 
                 finding = Finding(title=findings['title'], test=findings['test'], severity=findings['severity'], severity_justification=findings['severity_justification'], description=findings['description'])
-
                 lst.append(finding)
         return lst
     
