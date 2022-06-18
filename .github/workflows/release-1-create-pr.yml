@@ -5,7 +5,6 @@ env:
   GIT_EMAIL: "dojo-release-bot@users.noreply.github.com"
 on:
   workflow_dispatch:
-  workflow_dispatch:
     inputs:
       # the actual branch that can be chosen on the UI is made irrelevant by further steps
       # because someone will forget one day to change it.
