@@ -1,5 +1,6 @@
 name: k8s deployment
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches:
